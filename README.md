@@ -1,2 +1,3 @@
-# PokemonTCGPrices
- A tool to evaulate a Pokemon TCG collection
+# PokemonTCGPrices 
+
+A tool to evaulate a Pokemon TCG collection

@@ -1,0 +1,4 @@
+[project]
+name = "PokemonTCGPrices"
+VERSION = "1.0.0"
+dependencies = []
