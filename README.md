@@ -6,8 +6,31 @@ Create a text file `<NAME>.txt` and add the identifier for each card you own at 
 The output file will be saved on the Desktop with name `output.txt` and will be opened automatically after a few seconds.
 
 ## Input File Examle
+The Text file should contain a single card identifier in a new line.
+```
+SV1-15  
+SM12-123  
+XY10-78  
+BW8-45  
+HGSS3-10  
+DP4-88  
+EX6-17  
+SW3-64  
+SWSH8-25  
+DP1-12  
+```
 
 ## How To Build
+### Requirements
+- Python3
+- Pip
+- Pyinstaller
+
+### To build the project from source:
+1. Clone the repo
+2. CD into the project root folder
+3. Install dependencies with `pip install -r requirements.txt`
+4. Bundle the application into a single .exe file with `pyinstaller .\main.py --onefile --icon=assets\icon.ico`
 
 ## How To Identify A Pokemon Card
 Each Pokémon card has a **Collector Number** and a **Set Symbol**, which uniquely identify the card.  
@@ -43,10 +66,13 @@ Set Code - Collector Number
 - `SM1-45` → Card #45 from the Sun & Moon Base Set.
 
 
-
-
-
-
 ### Price Range
+The tool provide 3 estimates for the collection.  
+- **Lower** is the lower bound based on the chepest sales of the cards.
+- **Marked Value** is the price that best represents the current value of the cards.
+- **High** is the upper bound based on the most expensive sales of the cards.
 
 ## Thanks
+Thanks to [Pokémon TCG API](https://docs.pokemontcg.io/).  
+PriceCharting.com for their [article](https://blog.pricecharting.com/2021/01/how-to-tell-what-pokemon-card-you-have.html#fast) on how to identify a card.
+
