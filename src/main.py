@@ -2,18 +2,15 @@ import time
 import sys
 import argparse
 import heapq
-
-import traceback
-
-
 import os
-from dotenv import load_dotenv
-load_dotenv()
-TOP_CARDS_COUNTER = int(os.getenv('TOP_CARDS_COUNTER'))
-
 import time
+import traceback
+from pathlib import Path
+
 
 from pokemontcgsdk import Card
+
+TOP_CARDS_COUNTER = 50
 
 
 logo_ascii_art = r"""
@@ -41,12 +38,10 @@ def parse_cl_arguments():
     
     parser.add_argument("file", nargs="?", help="The text file containing the card codes", type=str)
     parser.add_argument("-v", "--verbose", action="store_false", help="display info on each card checked while the program runs")
-    parser.add_argument("-s", "--short", action="store_true", help="display only mininal information about the collection")
-    parser.add_argument("-c", "--check_key", action="store_true", help="check the validity and availability of the local API key")
-    
+
     args = parser.parse_args()
 
-    print(vars(args))
+    print("info:\n" + str(vars(args)) + "\n\n")
 
     # input file
     if args.file is None and len(sys.argv) > 1:
@@ -55,7 +50,7 @@ def parse_cl_arguments():
     if args.file is None:
         print("Need to drag the text file containing the card codes into the script! the program will exit in 10 seconds.")
         time.sleep(10)
-        exit()
+        sys.exit()
 
     return args
 
@@ -117,7 +112,6 @@ def export_data(values, topCards, problematicCards):
 
         outputFile.write(f"Top {TOP_CARDS_COUNTER} most expensive cards:\n")
         for cardIndex, card in enumerate(topCardsSorted):
-            print(str(card))
             outputFile.write(f"#{cardIndex + 1} - {card[1]['name']}, price: {card[1]['market']}\n")
 
         if len(problematicCards) > 0:
@@ -125,7 +119,9 @@ def export_data(values, topCards, problematicCards):
             for card in problematicCards:
                 outputFile.write(f"{card["code"]}\n")
         
-        print(f"created a summary text file on path {uniquePath}")
+        print(f"\n\ncreated a summary text file on path {uniquePath}")
+        time.sleep(5)
+        os.startfile(uniquePath)
 
     except Exception as e:
             print("Error writing output file, please contact cijhho123 with a screenshot and input file")
@@ -147,6 +143,11 @@ def uniquify(path):
 def main():
     print_welcome_screen()
     args = parse_cl_arguments()
+    
+    if Path(args.file).suffix != '.txt':
+        print("The provided file must be a text file with extension .txt the program will exit in 10 seconds")
+        time.sleep(10)
+        sys.exit()
 
     values = [0.0, 0.0, 0.0]  # lowest prices, market value, highest prices
     topCards = []
